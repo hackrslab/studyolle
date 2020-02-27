@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: main-nav"></nav>
+
+    <div class="container">
+        <div class="py-5 text-center" th:if="${error != null}">
+            <p class="lead">스터디올래 가입</p>
+            <div  class="alert alert-danger" role="alert" th:text="${error}"></div>
+            <p class="lead" th:text="${email}">your@email.com</p>
+        </div>
+
+        <div class="py-5 text-center" th:if="${error == null}">
+            <p class="lead">스터디올래 가입</p>
+
+            <h2>스터디올레 서비스를 사용하려면 인증 이메일을 확인하세요.</h2>
+
+            <div>
+                <p class="lead" th:text="${email}">your@email.com</p>
+                <a class="btn btn-outline-info" th:href="@{/resend-confirm-email}">인증 이메일 다시 보내기</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

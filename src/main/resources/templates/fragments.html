@@ -7,6 +7,10 @@
     <meta charset="UTF-8">
     <title>StudyOlle</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css" />
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/node_modules/jdenticon/dist/jdenticon.min.js"></script>
     <style>
         .container {
             max-width: 100%;
@@ -39,15 +43,20 @@
                 <a class="nav-link" th:href="@{/sign-up}">가입</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/notifications}">알림</a>
+                <a class="nav-link" th:href="@{/notifications}">
+                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                </a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link btn btn-outline-primary" th:href="@{/notifications}">스터디 개설</a>
+                <a class="nav-link btn btn-outline-primary" th:href="@{/notifications}">
+                    <i class="fa fa-plus" aria-hidden="true"></i> 스터디 개설
+                </a>
             </li>
             <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    프로필
+                    <svg data-jdenticon-value="user127" th:data-jdenticon-value="${#authentication.name}"
+                         width="24" height="24" class="rounded border bg-light"></svg>
                 </a>
                 <div class="dropdown-menu dropdown-menu-sm-right" aria-labelledby="userDropdown">
                     <h6 class="dropdown-header">

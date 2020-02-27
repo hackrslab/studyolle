@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
-    <div class="fragments.html :: main-nav"></div>
+    <div th:replace="fragments.html :: main-nav"></div>
 
     <div class="py-5 text-center" th:if="${error}">
         <p class="lead">스터디올래 이메일 확인</p>

@@ -82,6 +82,15 @@
     </div>
 </footer>
 
+<div th:fragment="settings-menu (currentMenu)" class="list-group">
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'profile'}? active" href="#" th:href="@{/settings/profile}">프로필</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'password'}? active" href="#" th:href="@{/settings/password}">패스워드</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'notifications'}? active" href="#" th:href="@{/settings/notifications}">알림</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'tags'}? active" href="#" th:href="@{/settings/tags}">관심 주제</a>
+    <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zones'}? active" href="#" th:href="@{/settings/zones}">활동 지역</a>
+    <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu == 'account'}? active" href="#" th:href="@{/settings/account}">계정</a>
+</div>
+
 <script type="application/javascript" th:fragment="form-validation">
     (function () {
         'use strict';

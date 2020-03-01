@@ -21,6 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -115,6 +117,8 @@ public class SettingsController {
     @GetMapping(SETTINGS_TAGS_URL)
     public String updateTags(@CurrentUser Account account, Model model) {
         model.addAttribute(account);
+        Set<Tag> tags = accountService.getTags(account);
+        model.addAttribute("tags", tags.stream().map(Tag::getTitle).collect(Collectors.toList()));
         return SETTINGS_TAGS_VIEW_NAME;
     }
 

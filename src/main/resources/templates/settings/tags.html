@@ -18,7 +18,8 @@
                             참여하고 싶은 스터디 주제를 입력해 주세요. 해당 주제의 스터디가 생기면 알림을 받을 수 있습니다. 태그를 입력하고 콤마(,)
                             또는 엔터를 입력하세요.
                         </div>
-                        <input id="tags" type="text" name="tags" class="tagify-outside" aria-describedby="tagHelp"/>
+                        <input id="tags" type="text" name="tags" th:value="${#strings.listJoin(tags, ',')}"
+                               class="tagify-outside" aria-describedby="tagHelp"/>
                     </div>
                 </div>
             </div>

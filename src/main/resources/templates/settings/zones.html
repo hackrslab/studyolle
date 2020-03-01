@@ -6,20 +6,20 @@
     <div class="container">
         <div class="row mt-5 justify-content-center">
             <div class="col-2">
-                <div th:replace="fragments.html :: settings-menu(currentMenu='tags')"></div>
+                <div th:replace="fragments.html :: settings-menu(currentMenu='zones')"></div>
             </div>
             <div class="col-8">
                 <div class="row">
-                    <h2 class="col-12">관심있는 스터디 주제</h2>
+                    <h2 class="col-12">주요 활동 지역</h2>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-info" role="alert">
-                            참여하고 싶은 스터디 주제를 입력해 주세요. 해당 주제의 스터디가 생기면 알림을 받을 수 있습니다. 태그를 입력하고 콤마(,)
-                            또는 엔터를 입력하세요.
+                            주로 스터디를 다닐 수 있는 지역을 등록하세요. 해당 지역에 스터디가 생기면 알림을 받을 수 있습니다.<br/>
+                            시스템에 등록된 지역만 선택할 수 있습니다.
                         </div>
                         <div id="whitelist" th:text="${whitelist}" hidden></div>
-                        <input id="tags" type="text" name="tags" th:value="${#strings.listJoin(tags, ',')}"
+                        <input id="tags" type="text" name="tags" th:value="${#strings.listJoin(zones, ',')}"
                                class="tagify-outside" aria-describedby="tagHelp"/>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
     <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
     <script type="application/javascript">
         $(function () {
-            function tagRequest(url, tagTitle) {
+            function tagRequest(url, zoneName) {
                 $.ajax({
                     dataType: "json",
                     autocomplete: {
@@ -39,8 +39,8 @@
                     },
                     contentType: "application/json; charset=utf-8",
                     method: "POST",
-                    url: "/settings/tags" + url,
-                    data: JSON.stringify({'tagTitle': tagTitle})
+                    url: "/settings/zones" + url,
+                    data: JSON.stringify({'zoneName': zoneName})
                 }).done(function (data, status) {
                     console.log("${data} and status is ${status}");
                 });
@@ -57,7 +57,7 @@
             var tagInput = document.querySelector("#tags");
 
             var tagify = new Tagify(tagInput, {
-                pattern: /^.{0,20}$/,
+                enforceWhitelist: true,
                 whitelist: JSON.parse(document.querySelector("#whitelist").textContent),
                 dropdown : {
                     enabled: 1, // suggest tags after a single character input

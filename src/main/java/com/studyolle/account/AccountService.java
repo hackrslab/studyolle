@@ -1,8 +1,9 @@
 package com.studyolle.account;
 
+import com.studyolle.account.form.SignUpForm;
 import com.studyolle.domain.Account;
-import com.studyolle.settings.Notifications;
-import com.studyolle.settings.Profile;
+import com.studyolle.settings.form.Notifications;
+import com.studyolle.settings.form.Profile;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.SimpleMailMessage;

@@ -2,9 +2,7 @@ package com.studyolle.main;
 
 import com.studyolle.account.AccountRepository;
 import com.studyolle.account.AccountService;
-import com.studyolle.account.SignUpForm;
-import lombok.RequiredArgsConstructor;
-import lombok.With;
+import com.studyolle.account.form.SignUpForm;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

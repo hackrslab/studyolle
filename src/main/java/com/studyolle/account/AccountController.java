@@ -1,20 +1,16 @@
 package com.studyolle.account;
 
+import com.studyolle.account.form.SignUpForm;
+import com.studyolle.account.validator.SignUpFormValidator;
 import com.studyolle.domain.Account;
 import lombok.RequiredArgsConstructor;
-import org.dom4j.rule.Mode;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.AuthenticationException;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor

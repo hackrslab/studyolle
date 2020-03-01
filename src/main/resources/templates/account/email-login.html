@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <div th:replace="fragments.html :: main-nav"></div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <p class="lead">스터디올래</p>
+            <h2>패스워드 없이 로그인하기</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${error}">완료</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">완료</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form class="needs-validation col-sm-6" action="#" th:action="@{/email-login}" method="post" novalidate>
+                <div class="form-group">
+                    <label for="email">가입 할 때 사용한 이메일</label>
+                    <input id="email" type="email" name="email" class="form-control"
+                           placeholder="your@email.com" aria-describedby="emailHelp" required>
+                    <small id="emailHelp" class="form-text text-muted">
+                        가입할 때 사용한 이메일을 입력하세요.
+                    </small>
+                    <small class="invalid-feedback">이메일을 입력하세요.</small>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-success btn-block" type="submit"
+                            aria-describedby="submitHelp">로그인 링크 보내기</button>
+                    <small id="submitHelp" class="form-text text-muted">
+                        스터디올래에 처음 오신거라면 <a href="#" th:href="@{/findpassword}">계정을 먼저 만드세요.</a>
+                    </small>
+                </div>
+            </form>
+        </div>
+
+        <div th:replace="fragments.html :: footer"></div>
+    </div>
+    <script th:replace="fragments.html :: form-validation"></script>
+</body>
+</html>

@@ -27,51 +27,6 @@
         </div>
     </div>
     <script th:replace="fragments.html :: ajax-csrf-header"></script>
-    <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
-    <script type="application/javascript">
-        $(function () {
-            function tagRequest(url, tagTitle) {
-                $.ajax({
-                    dataType: "json",
-                    autocomplete: {
-                        enabled: true,
-                        rightKey: true,
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    method: "POST",
-                    url: "/settings/tags" + url,
-                    data: JSON.stringify({'tagTitle': tagTitle})
-                }).done(function (data, status) {
-                    console.log("${data} and status is ${status}");
-                });
-            }
-
-            function onAdd(e) {
-                tagRequest("/add", e.detail.data.value);
-            }
-
-            function onRemove(e) {
-                tagRequest("/remove", e.detail.data.value);
-            }
-
-            var tagInput = document.querySelector("#tags");
-
-            var tagify = new Tagify(tagInput, {
-                pattern: /^.{0,20}$/,
-                whitelist: JSON.parse(document.querySelector("#whitelist").textContent),
-                dropdown : {
-                    enabled: 1, // suggest tags after a single character input
-                } // map tags
-            });
-
-            tagify.on("add", onAdd);
-            tagify.on("remove", onRemove);
-
-            // add a class to Tagify's input element
-            tagify.DOM.input.classList.add('form-control');
-            // re-place Tagify's input element outside of the  element (tagify.DOM.scope), just before it
-            tagify.DOM.scope.parentNode.insertBefore(tagify.DOM.input, tagify.DOM.scope);
-        });
-    </script>
+    <script th:replace="fragments.html :: update-tags(baseUrl='/settings/tags')"></script>
 </body>
 </html>

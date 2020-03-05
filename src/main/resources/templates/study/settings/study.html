@@ -118,7 +118,7 @@
                 </div>
 
                 <hr/>
-                <div class="row">
+                <div class="row" th:if="${study.isRemovable()}">
                     <h5 class="col-sm-12 text-danger">스터디 삭제</h5>
                     <form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/remove'}" method="post" novalidate>
                         <div class="alert alert-danger" role="alert">
@@ -132,6 +132,17 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp">스터디 삭제</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row" th:if="${!study.isRemovable()}">
+                    <h5 class="col-sm-12 text-danger">스터디 삭제</h5>
+                    <form class="col-sm-12" action="#" th:action="@{'/study/' + ${study.getPath()} + '/settings/study/remove'}" method="post" novalidate>
+                        <div class="alert alert-danger" role="alert">
+                            공개 중이고 모임을 했던 스터디는 삭제할 수 없습니다.
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-outline-danger" type="submit" aria-describedby="submitHelp" disabled>스터디 삭제</button>
                         </div>
                     </form>
                 </div>

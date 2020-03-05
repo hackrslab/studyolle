@@ -74,12 +74,13 @@
                 <hr th:if="${!study.closed}"/>
                 <div class="row" th:if="${!study.closed}">
                     <h5 class="col-sm-12">스터디 경로</h5>
-                    <form class="col-sm-12 needs-validation" action="#" th:action="@{'/study/' + ${study.path} + '/settings/study/path'}" method="post" novalidate>
+                    <form class="col-sm-12 needs-validation" th:action="@{'/study/' + ${study.path} + '/settings/study/path'}"
+                          method="post" novalidate>
                         <div class="alert alert-warning" role="alert">
                             스터디 경로를 수정하면 이전에 사용하던 경로로 스터디에 접근할 수 없으니 주의하세요. <br/>
                         </div>
                         <div class="form-group">
-                            <input id="path" type="text" name="newPath" th:value="${newPath}" class="form-control"
+                            <input id="path" type="text" name="newPath" th:value="${study.path}" class="form-control"
                                    placeholder="예) study-path" aria-describedby="pathHelp" required>
                             <small id="pathHelp" class="form-text text-muted">
                                 공백없이 문자, 숫자, 대시(-)와 언더바(_)만 3자 이상 20자 이내로 입력하세요. 스터디 홈 주소에 사용합니다. 예) /study/<b>study-path</b>

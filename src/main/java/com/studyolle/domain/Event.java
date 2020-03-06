@@ -90,4 +90,7 @@ public class Event {
         return false;
     }
 
+    public long getNumberOfAcceptedEnrollments() {
+        return this.enrollments.stream().filter(Enrollment::isAccepted).count();
+    }
 }

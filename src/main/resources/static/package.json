@@ -16,6 +16,7 @@
     "jdenticon": "^2.2.0",
     "jquery": "^3.4.1",
     "jquery-cropper": "^1.0.1",
+    "moment": "^2.24.0",
     "summernote": "^0.8.16"
   }
 }

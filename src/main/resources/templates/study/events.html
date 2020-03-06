@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body>
+    <nav th:replace="fragments.html :: main-nav"></nav>
+    <div th:replace="fragments.html :: study-banner"></div>
+    <div class="container">
+        <div th:replace="fragments.html :: study-info"></div>
+        <div th:replace="fragments.html :: study-menu(studyMenu='events')"></div>
+        <div class="row my-3 mx-3 justify-content-center">
+            <div class="col-10 px-0 row">
+                <div class="col-2 px-0">
+                    <ul class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            새 모임
+                            <span th:text="${newEvents.size()}">2</span>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            지난 모임
+                            <span th:text="${oldEvents.size()}">5</span>
+                        </a>
+                    </ul>
+                </div>
+                <div class="col-10 row row-cols-1 row-cols-md-2">
+                    <div th:if="${newEvents.size() == 0}" class="col">
+                        새 모임이 없습니다.
+                    </div>
+                    <div class="col mb-4 pr-0" th:each="event: ${newEvents}">
+                        <div class="card">
+                            <div class="card-header">
+                                <span th:text="${event.title}">title</span>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <i class="fa fa-calendar"></i>
+                                    <span class="calendar" th:text="${event.startDateTime}"></span> 모임 시작
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fa fa-hourglass-end"></i> <span class="fromNow" th:text="${event.endEnrollmentDateTime}"></span> 모집 마감,
+                                    <span th:if="${event.limitOfEnrollments != 0}">
+                                    <span th:text="${event.limitOfEnrollments}"></span>명 모집 중
+                                    (<span th:text="${event.numberOfRemainSpots()}"></span> 자리 남음)
+                                </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <a href="#" th:href="@{'/study/' + ${study.path} + '/events/' + ${event.id}}" class="card-link">자세히 보기</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 px-0 row">
+                <div class="col-2"></div>
+                <div class="col-10">
+                    <table th:if="${oldEvents.size() > 0}" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">지난 모임 이름</th>
+                            <th scope="col">모임 종료</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="event: ${oldEvents}">
+                        <tr>
+                            <th scope="row" th:text="${eventStat.count}">1</th>
+                            <td th:text="${event.title}">Title</td>
+                            <td>
+                                <span class="date-weekday-time" th:text="${event.endDateTime}"></span>
+                            </td>
+                            <td>
+                                <a href="#" th:href="@{'/study/' + ${study.path} + '/events/' + ${event.id}}" class="card-link">자세히 보기</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments.html :: footer"></div>
+    </div>
+    <script th:replace="fragments.html :: tooltip"></script>
+    <script th:replace="fragments.html :: date-time"></script>
+</body>
+</html>

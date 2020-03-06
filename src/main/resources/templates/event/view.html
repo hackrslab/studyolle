@@ -165,12 +165,12 @@
 
                 <dt class="font-weight-light">모임장</dt>
                 <dd>
-                    <a th:href="@{'/profile/' + ${event.createdBy.nickname}}" class="text-decoration-none">
+                    <a th:href="@{'/profile/' + ${event.createdBy?.nickname}}" class="text-decoration-none">
                         <svg th:if="${#strings.isEmpty(event.createdBy?.profileImage)}"
-                             th:data-jdenticon-value="${event.createdBy.nickname}" width="24" height="24" class="rounded border bg-light"></svg>
+                             th:data-jdenticon-value="${event.createdBy?.nickname}" width="24" height="24" class="rounded border bg-light"></svg>
                         <img th:if="${!#strings.isEmpty(event.createdBy?.profileImage)}"
                              th:src="${event.createdBy?.profileImage}" width="24" height="24" class="rounded border"/>
-                        <span th:text="${event.createdBy.nickname}"></span>
+                        <span th:text="${event.createdBy?.nickname}"></span>
                     </a>
                 </dd>
 
@@ -211,25 +211,6 @@
         </div>
         <div th:replace="fragments.html :: footer"></div>
     </div>
-    <script src="/node_modules/moment/min/moment-with-locales.min.js"></script>
-    <script type="application/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-
-            moment.locale('ko');
-            $(".date-time").text(function(index, dateTime) {
-                return moment(dateTime, "YYYY-MM-DD`T`hh:mm").format('LLL');
-            });
-            $(".date").text(function(index, dateTime) {
-                return moment(dateTime, "YYYY-MM-DD`T`hh:mm").format('LL');
-            });
-            $(".weekday").text(function(index, dateTime) {
-                return moment(dateTime, "YYYY-MM-DD`T`hh:mm").format('dddd');
-            });
-            $(".time").text(function(index, dateTime) {
-                return moment(dateTime, "YYYY-MM-DD`T`hh:mm").format('LT');
-            });
-        })
-    </script>
+    <script th:replace="fragments.html :: date-time"></script>
 </body>
 </html>

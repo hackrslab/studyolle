@@ -1,5 +1,6 @@
 package com.studyolle.modules.event;
 
+import com.studyolle.infra.AbstractContainerBaseTest;
 import com.studyolle.infra.MockMvcTest;
 import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
@@ -25,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @MockMvcTest
-class EventControllerTest {
+class EventControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired StudyFactory studyFactory;

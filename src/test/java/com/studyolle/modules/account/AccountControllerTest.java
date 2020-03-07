@@ -1,5 +1,6 @@
 package com.studyolle.modules.account;
 
+import com.studyolle.infra.AbstractContainerBaseTest;
 import com.studyolle.infra.MockMvcTest;
 import com.studyolle.infra.mail.EmailMessage;
 import com.studyolle.infra.mail.EmailService;
@@ -11,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-class AccountControllerTest {
+class AccountControllerTest extends AbstractContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired AccountRepository accountRepository;

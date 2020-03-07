@@ -2,6 +2,7 @@ package com.studyolle.event;
 
 import com.studyolle.account.CurrentAccount;
 import com.studyolle.domain.Account;
+import com.studyolle.domain.Enrollment;
 import com.studyolle.domain.Event;
 import com.studyolle.domain.Study;
 import com.studyolle.event.form.EventForm;
@@ -32,6 +33,7 @@ public class EventController {
     private final EventValidator eventValidator;
     private final EventRepository eventRepository;
     private final StudyRepository studyRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     @InitBinder("eventForm")
     public void initBinder(WebDataBinder webDataBinder) {
@@ -62,10 +64,10 @@ public class EventController {
     }
 
     @GetMapping("/events/{id}")
-    public String getEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id,
+    public String getEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable("id") Event event,
                            Model model) {
         model.addAttribute(account);
-        model.addAttribute(eventRepository.findById(id).orElseThrow());
+        model.addAttribute(event);
         model.addAttribute(studyRepository.findStudyWithManagersByPath(path));
         return "event/view";
     }
@@ -95,9 +97,8 @@ public class EventController {
 
     @GetMapping("/events/{id}/edit")
     public String updateEventForm(@CurrentAccount Account account,
-                                  @PathVariable String path, @PathVariable Long id, Model model) {
+                                  @PathVariable String path, @PathVariable("id") Event event, Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
-        Event event = eventRepository.findById(id).orElseThrow();
         model.addAttribute(study);
         model.addAttribute(account);
         model.addAttribute(event);
@@ -107,10 +108,9 @@ public class EventController {
 
     @PostMapping("/events/{id}/edit")
     public String updateEventSubmit(@CurrentAccount Account account, @PathVariable String path,
-                                    @PathVariable Long id, @Valid EventForm eventForm, Errors errors,
+                                    @PathVariable("id") Event event, @Valid EventForm eventForm, Errors errors,
                                     Model model) {
         Study study = studyService.getStudyToUpdate(account, path);
-        Event event = eventRepository.findById(id).orElseThrow();
         eventForm.setEventType(event.getEventType());
         eventValidator.validateUpdateForm(eventForm, event, errors);
 
@@ -126,26 +126,58 @@ public class EventController {
     }
 
     @DeleteMapping("/events/{id}")
-    public String cancelEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id) {
+    public String cancelEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable("id") Event event) {
         Study study = studyService.getStudyToUpdateStatus(account, path);
-        eventService.deleteEvent(eventRepository.findById(id).orElseThrow());
+        eventService.deleteEvent(event);
         return "redirect:/study/" + study.getEncodedPath() + "/events";
     }
 
     @PostMapping("/events/{id}/enroll")
     public String newEnrollment(@CurrentAccount Account account,
-                                @PathVariable String path, @PathVariable Long id) {
+                                @PathVariable String path, @PathVariable("id") Event event) {
         Study study = studyService.getStudyToEnroll(path);
-        eventService.newEnrollment(eventRepository.findById(id).orElseThrow(), account);
-        return "redirect:/study/" + study.getEncodedPath() +  "/events/" + id;
+        eventService.newEnrollment(event, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
     }
 
     @PostMapping("/events/{id}/disenroll")
     public String cancelEnrollment(@CurrentAccount Account account,
-                                   @PathVariable String path, @PathVariable Long id) {
+                                   @PathVariable String path, @PathVariable("id") Event event) {
         Study study = studyService.getStudyToEnroll(path);
-        eventService.cancelEnrollment(eventRepository.findById(id).orElseThrow(), account);
-        return "redirect:/study/" + study.getEncodedPath() +  "/events/" + id;
+        eventService.cancelEnrollment(event, account);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
+
+    @GetMapping("events/{eventId}/enrollments/{enrollmentId}/accept")
+    public String acceptEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                   @PathVariable("eventId") Event event, @PathVariable("enrollmentId") Enrollment enrollment) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        eventService.acceptEnrollment(event, enrollment);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
+
+    @GetMapping("/events/{eventId}/enrollments/{enrollmentId}/reject")
+    public String rejectEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                   @PathVariable("eventId") Event event, @PathVariable("enrollmentId") Enrollment enrollment) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        eventService.rejectEnrollment(event, enrollment);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
+
+    @GetMapping("/events/{eventId}/enrollments/{enrollmentId}/checkin")
+    public String checkInEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                    @PathVariable("eventId") Event event, @PathVariable("enrollmentId") Enrollment enrollment) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        eventService.checkInEnrollment(enrollment);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
+    }
+
+    @GetMapping("/events/{eventId}/enrollments/{enrollmentId}/cancel-checkin")
+    public String cancelCheckInEnrollment(@CurrentAccount Account account, @PathVariable String path,
+                                          @PathVariable("eventId") Event event, @PathVariable("enrollmentId") Enrollment enrollment) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        eventService.cancelCheckInEnrollment(enrollment);
+        return "redirect:/study/" + study.getEncodedPath() + "/events/" + event.getId();
     }
 
 }

@@ -1,7 +1,9 @@
 package com.studyolle.modules.study;
 
-import com.studyolle.modules.account.WithAccount;
+import com.studyolle.infra.MockMvcTest;
+import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
+import com.studyolle.modules.account.WithAccount;
 import com.studyolle.modules.account.Account;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
@@ -18,16 +20,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
-@RequiredArgsConstructor
+@MockMvcTest
 public class StudyControllerTest {
 
-    @Autowired protected MockMvc mockMvc;
-    @Autowired protected StudyService studyService;
-    @Autowired protected StudyRepository studyRepository;
-    @Autowired protected AccountRepository accountRepository;
+    @Autowired MockMvc mockMvc;
+    @Autowired StudyService studyService;
+    @Autowired StudyRepository studyRepository;
+    @Autowired AccountRepository accountRepository;
+    @Autowired AccountFactory accountFactory;
+    @Autowired StudyFactory studyFactory;
 
     @Test
     @WithAccount("keesun")
@@ -102,9 +103,8 @@ public class StudyControllerTest {
     @WithAccount("keesun")
     @DisplayName("스터디 가입")
     void joinStudy() throws Exception {
-        Account whiteship = createAccount("whiteship");
-
-        Study study = createStudy("test-study", whiteship);
+        Account whiteship = accountFactory.createAccount("whiteship");
+        Study study = studyFactory.createStudy("test-study", whiteship);
 
         mockMvc.perform(get("/study/" + study.getPath() + "/join"))
                 .andExpect(status().is3xxRedirection())
@@ -118,9 +118,8 @@ public class StudyControllerTest {
     @WithAccount("keesun")
     @DisplayName("스터디 탈퇴")
     void leaveStudy() throws Exception {
-        Account whiteship = createAccount("whiteship");
-        Study study = createStudy("test-study", whiteship);
-
+        Account whiteship = accountFactory.createAccount("whiteship");
+        Study study = studyFactory.createStudy("test-study", whiteship);
         Account keesun = accountRepository.findByNickname("keesun");
         studyService.addMember(study, keesun);
 
@@ -131,19 +130,8 @@ public class StudyControllerTest {
         assertFalse(study.getMembers().contains(keesun));
     }
 
-    protected Study createStudy(String path, Account manager) {
-        Study study = new Study();
-        study.setPath(path);
-        studyService.createNewStudy(study, manager);
-        return study;
-    }
 
-    protected Account createAccount(String nickname) {
-        Account whiteship = new Account();
-        whiteship.setNickname(nickname);
-        whiteship.setEmail(nickname + "@email.com");
-        accountRepository.save(whiteship);
-        return whiteship;
-    }
+
+
 
 }

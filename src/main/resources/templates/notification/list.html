@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <nav th:replace="fragments.html :: main-nav"></nav>
+    <div class="container">
+        <div class="row py-5 text-center">
+            <div class="col-3">
+                <ul class="list-group">
+                    <a href="#" th:href="@{/notifications}" th:classappend="${isNew}? active"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        읽지 않은 알림
+                        <span th:text="${numberOfNotChecked}">3</span>
+                    </a>
+                    <a href="#" th:href="@{/notifications/old}" th:classappend="${!isNew}? active"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        읽은 알림
+                        <span th:text="${numberOfChecked}">0</span>
+                    </a>
+                </ul>
+
+                <ul class="list-group mt-4">
+                    <a href="#" th:if="${newStudyNotifications.size() > 0}"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        새 스터디 알림
+                        <span th:text="${newStudyNotifications.size()}">3</span>
+                    </a>
+                    <a href="#" th:if="${eventEnrollmentNotifications.size() > 0}"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        모임 참가 신청 알림
+                        <span th:text="${eventEnrollmentNotifications.size()}">0</span>
+                    </a>
+                    <a href="#" th:if="${watchingStudyNotifications.size() > 0}"
+                       class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        관심있는 스터디 알림
+                        <span th:text="${watchingStudyNotifications.size()}">0</span>
+                    </a>
+                </ul>
+
+                <ul class="list-group mt-4" th:if="${numberOfChecked > 0}">
+                    <form th:action="@{/notifications}" th:method="delete">
+                        <button type="submit" class="btn btn-block btn-outline-warning" aria-describedby="deleteHelp">
+                            읽은 알림 삭제
+                        </button>
+                        <small id="deleteHelp">삭제하지 않아도 한달이 지난 알림은 사라집니다.</small>
+                    </form>
+                </ul>
+            </div>
+            <div class="col-9">
+                <div class="card" th:if="${notifications.size() == 0}">
+                    <div class="card-header">
+                        알림 메시지가 없습니다.
+                    </div>
+                </div>
+
+                <div class="card" th:if="${newStudyNotifications.size() > 0}">
+                    <div class="card-header">
+                        주요 활동 지역에 관심있는 주제의 스터디가 생겼습니다.
+                    </div>
+                    <div th:replace="fragments.html :: notification-list (notifications=${newStudyNotifications})"></div>
+                </div>
+
+                <div class="card mt-4" th:if="${eventEnrollmentNotifications.size() > 0}">
+                    <div class="card-header">
+                        모임 참가 신청 관련 소식이 있습니다.
+                    </div>
+                    <div th:replace="fragments.html :: notification-list (notifications=${eventEnrollmentNotifications})"></div>
+                </div>
+
+                <div class="card mt-4" th:if="${watchingStudyNotifications.size() > 0}">
+                    <div class="card-header">
+                        참여중인 스터디 관련 소식이 있습니다.
+                    </div>
+                    <div th:replace="fragments.html :: notification-list (notifications=${watchingStudyNotifications})"></div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments.html :: footer"></div>
+    </div>
+    <script th:replace="fragments.html :: date-time"></script>
+</body>
+</html>

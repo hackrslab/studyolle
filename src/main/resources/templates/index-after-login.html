@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments.html :: head"></head>
+<body class="bg-light">
+    <div th:replace="fragments.html :: main-nav"></div>
+    <div class="alert alert-warning" role="alert" th:if="${account != null && !account?.emailVerified}">
+        스터디올레 가입을 완료하려면 <a href="#" th:href="@{/check-email(email=${account.email})}" class="alert-link">계정 인증 이메일을 확인</a>하세요.
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-2">
+                <h5 class="font-weight-light">관심 스터디 주제</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="tag: ${account.tags}">
+                        <i class="fa fa-tag"></i> <span th:text="${tag.title}"></span>
+                    </li>
+                    <li class="list-group-item" th:if="${account.tags.size() == 0}">
+                        <a th:href="@{/settings/tags}" class="btn-text">관심 스터디 주제</a>를 등록하세요.
+                    </li>
+                </ul>
+                <h5 class="mt-3 font-weight-light">주요 활동 지역</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:each="zone: ${account.zones}">
+                        <i class="fa fa-globe"></i> <span th:text="${zone.getLocalNameOfCity()}">Zone</span>
+                    </li>
+                    <li class="list-group-item" th:if="${account.zones.size() == 0}">
+                        <a th:href="@{/settings/zones}" class="btn-text">주요 활동 지역</a>을 등록하세요.
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-7">
+                <h5 th:if="${#lists.isEmpty(enrollmentList)}" class="font-weight-light">참석할 모임이 없습니다.</h5>
+                <h5 th:if="${!#lists.isEmpty(enrollmentList)}" class="font-weight-light">참석할 모임</h5>
+                <div class="row row-cols-1 row-cols-md-2" th:if="${!#lists.isEmpty(enrollmentList)}">
+                    <div class="col mb-4" th:each="enrollment: ${enrollmentList}">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${enrollment.event.title}">Event title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" th:text="${enrollment.event.study.title}">Study title</h6>
+                                <p class="card-text">
+                                <span>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <span class="calendar" th:text="${enrollment.event.startDateTime}">Last updated 3 mins ago</span>
+                                </span>
+                                </p>
+                                <a th:href="@{'/study/' + ${enrollment.event.study.path} + '/events/' + ${enrollment.event.id}}" class="card-link">모임 조회</a>
+                                <a th:href="@{'/study/' + ${enrollment.event.study.path}}" class="card-link">스터디 조회</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="font-weight-light mt-3" th:if="${#lists.isEmpty(studyList)}">관련 스터디가 없습니다.</h5>
+                <h5 class="font-weight-light mt-3" th:if="${!#lists.isEmpty(studyList)}">주요 활동 지역의 관심 주제 스터디</h5>
+                <div class="row justify-content-center">
+                    <div th:replace="fragments.html :: study-list (studyList=${studyList})"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h5 class="font-weight-light" th:if="${#lists.isEmpty(studyManagerOf)}">관리중인 스터디가 없습니다.</h5>
+                <h5 class="font-weight-light" th:if="${!#lists.isEmpty(studyManagerOf)}">관리중인 스터디</h5>
+                <div class="list-group" th:if="${!#lists.isEmpty(studyManagerOf)}">
+                    <a href="#" th:href="@{'/study/' + ${study.path}}" th:text="${study.title}"
+                       class="list-group-item list-group-item-action" th:each="study: ${studyManagerOf}">
+                        Study title
+                    </a>
+                </div>
+
+                <h5 class="font-weight-light mt-3" th:if="${#lists.isEmpty(studyMemberOf)}">참여중인 스터디가 없습니다.</h5>
+                <h5 class="font-weight-light mt-3" th:if="${!#lists.isEmpty(studyMemberOf)}">참여중인 스터디</h5>
+                <div class="list-group" th:if="${!#lists.isEmpty(studyMemberOf)}">
+                    <a href="#" th:href="@{'/study/' + ${study.path}}" th:text="${study.title}"
+                       class="list-group-item list-group-item-action" th:each="study: ${studyManagerOf}">
+                        Study title
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments.html :: footer"></div>
+    <div th:replace="fragments.html :: date-time"></div>
+</body>
+</html>

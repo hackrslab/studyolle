@@ -10,8 +10,10 @@ IDE에서 프로젝트로 로딩한 다음에 메이븐으로 컴파일 빌드�
 
 ### 메이븐으로 컴파일 빌드 하는 방법
 
+메이븐이 설치되어 있지 않은 경우 메이븐 랩퍼(mvnw 또는 mvnw.cmd(윈도)를 사용해서 빌드하세요.
+
 ```
-mvn compile
+mvnw compile
 ```
 
 메이븐으로 컴파일을 해야 프론트엔드 라이브러리를 받아오며 QueryDSL 관련 코드를 생성합니다.
@@ -21,7 +23,7 @@ mvn compile
 JAR 패키징을 한 뒤 java -jar로 실행합니다.
 
 ```
-mvn clean compile package
+mvnw clean compile package
 ```
 
 ```

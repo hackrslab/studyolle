@@ -1,0 +1,1 @@
+insert into zone (city, local_name_of_city, province, id) values ('online', '온라인', null, 86);

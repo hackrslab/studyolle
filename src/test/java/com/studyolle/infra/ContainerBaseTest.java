@@ -2,7 +2,7 @@ package com.studyolle.infra;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 
-public abstract class AbstractContainerBaseTest {
+public abstract class ContainerBaseTest {
 
     static final PostgreSQLContainer POSTGRE_SQL_CONTAINER;
 

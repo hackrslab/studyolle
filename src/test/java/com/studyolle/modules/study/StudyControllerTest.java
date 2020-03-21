@@ -1,19 +1,15 @@
 package com.studyolle.modules.study;
 
-import com.studyolle.infra.AbstractContainerBaseTest;
+import com.studyolle.infra.ContainerBaseTest;
 import com.studyolle.infra.MockMvcTest;
 import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.WithAccount;
 import com.studyolle.modules.account.Account;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -22,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @MockMvcTest
-public class StudyControllerTest extends AbstractContainerBaseTest {
+public class StudyControllerTest extends ContainerBaseTest {
 
     @Autowired MockMvc mockMvc;
     @Autowired StudyService studyService;

@@ -37,3 +37,10 @@ src/main/resources/static/package-lock.json
 
 ### Config ###
 config
+
+# gradle
+.gradle/**
+gradlew*
+gradle/**
+
+

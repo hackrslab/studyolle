@@ -1,0 +1,116 @@
+/*
+step 1 : Tasks - application - npm-Install ( node, npm / needs to install using before. )
+step 2 : Tasks - application - bootRun or any type of running u want.
+*/
+
+plugins {
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id "com.moowork.node" version "1.3.1" // npm plugin
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal() // https://plugins.gradle.org/m2/
+}
+
+group = 'com.studyolle'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'  // chk
+    implementation 'org.springframework.boot:spring-boot-starter-validation'  // chk, req
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest' //
+    implementation 'org.springframework.boot:spring-boot-starter-mail'  // chk
+    implementation 'org.springframework.boot:spring-boot-starter-web' // chk
+    // implementation 'org.springframework.boot:spring-boot-starter-hateoas' //
+
+    implementation 'org.springframework.boot:spring-boot-starter-security' // chk∂
+    implementation 'org.springframework.security:spring-security-test' // chk , req for testing.
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // chk
+    implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+    // chk, req for spring 5 security
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.3' // chk, req
+
+    // lombok
+    compile group: 'org.projectlombok', name: 'lombok'
+    annotationProcessor 'org.projectlombok:lombok' // lombok
+
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.2'
+
+    // db
+    developmentOnly 'org.springframework.boot:spring-boot-devtools' // devtools 이용시 h2 console 이용
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    // query dsl
+    implementation 'com.querydsl:querydsl-core:4.4.0'
+    implementation 'com.querydsl:querydsl-jpa:4.4.0'
+    annotationProcessor 'com.querydsl:querydsl-apt:4.1.4:jpa' // querydsl JPAAnnotationProcessor
+    // querydsl JPAAnnotationProcessor을 사용
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+
+    // npm
+    implementation "com.moowork.gradle:gradle-node-plugin:1.3.1"
+
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'  // chk
+    testCompile group: 'org.projectlombok', name: 'lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok' // lombok
+    testImplementation group: 'org.testcontainers', name: 'postgresql', version: '1.15.3'
+    testImplementation group: 'com.tngtech.archunit', name: 'archunit-junit5-api', version: '0.18.0'
+    testImplementation group: 'org.testcontainers', name: 'junit-jupiter', version: '1.15.3'
+
+}
+
+def generated = 'generated'
+
+sourceSets {
+    main {
+        java {
+            srcDirs += generated
+            //exclude '**/uncompilable/**'
+        }
+
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+apply plugin: "com.moowork.node"
+// npm using on gradle project
+tasks.register("npm-Install") {
+    group = "application"
+    description = "Installs dependencies from package.json"
+    tasks.appNpmInstall.exec();
+}
+
+task appNpmInstall(type: NpmTask) {
+    // src/main/resources/static
+    description = "Installs dependencies from package.json"
+    workingDir = file("/src/main/resources/static")
+    args = ['install']
+}
+
+test {
+    useJUnitPlatform()
+}
+
+clean.doLast {
+    file(generated).deleteDir()
+}

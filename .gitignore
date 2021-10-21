@@ -38,9 +38,12 @@ src/main/resources/static/package-lock.json
 ### Config ###
 config
 
-# gradle
+### gradle ###
 .gradle/**
 gradlew*
 gradle/**
+
+### node ###
+yarn.lock
 
 

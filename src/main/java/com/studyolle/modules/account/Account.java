@@ -1,6 +1,5 @@
 package com.studyolle.modules.account;
 
-import com.studyolle.modules.study.Study;
 import com.studyolle.modules.tag.Tag;
 import com.studyolle.modules.zone.Zone;
 import lombok.*;

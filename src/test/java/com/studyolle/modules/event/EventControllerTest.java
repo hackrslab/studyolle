@@ -2,10 +2,10 @@ package com.studyolle.modules.event;
 
 import com.studyolle.infra.ContainerBaseTest;
 import com.studyolle.infra.MockMvcTest;
+import com.studyolle.modules.account.Account;
 import com.studyolle.modules.account.AccountFactory;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.WithAccount;
-import com.studyolle.modules.account.Account;
 import com.studyolle.modules.study.Study;
 import com.studyolle.modules.study.StudyFactory;
 import org.junit.jupiter.api.DisplayName;

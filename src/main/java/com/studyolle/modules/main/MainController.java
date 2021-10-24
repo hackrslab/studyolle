@@ -1,8 +1,8 @@
 package com.studyolle.modules.main;
 
+import com.studyolle.modules.account.Account;
 import com.studyolle.modules.account.AccountRepository;
 import com.studyolle.modules.account.CurrentAccount;
-import com.studyolle.modules.account.Account;
 import com.studyolle.modules.event.EnrollmentRepository;
 import com.studyolle.modules.study.Study;
 import com.studyolle.modules.study.StudyRepository;

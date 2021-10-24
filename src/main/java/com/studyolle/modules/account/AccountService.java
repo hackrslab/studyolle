@@ -1,13 +1,13 @@
 package com.studyolle.modules.account;
 
-import com.studyolle.modules.account.form.SignUpForm;
 import com.studyolle.infra.config.AppProperties;
-import com.studyolle.modules.tag.Tag;
-import com.studyolle.modules.zone.Zone;
 import com.studyolle.infra.mail.EmailMessage;
 import com.studyolle.infra.mail.EmailService;
 import com.studyolle.modules.account.form.Notifications;
 import com.studyolle.modules.account.form.Profile;
+import com.studyolle.modules.account.form.SignUpForm;
+import com.studyolle.modules.tag.Tag;
+import com.studyolle.modules.zone.Zone;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

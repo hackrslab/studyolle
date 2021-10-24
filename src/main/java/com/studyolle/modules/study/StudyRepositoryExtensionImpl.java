@@ -2,7 +2,6 @@ package com.studyolle.modules.study;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.JPQLQuery;
-import com.studyolle.modules.account.QAccount;
 import com.studyolle.modules.tag.QTag;
 import com.studyolle.modules.tag.Tag;
 import com.studyolle.modules.zone.QZone;
